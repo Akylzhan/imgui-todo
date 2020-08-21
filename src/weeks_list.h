@@ -4,13 +4,16 @@
 #include <map>
 #include <string>
 #include <utility>
+#include <tuple>
 
 #include "date_utilities.h"
 #include "imgui.h"
 
+
+// TODO: remove repeated code, :67, :89
+
 struct Date {
   int y, m, d;
-  std::string str_m = "";
 
   Date(int year = 0, int month = 0, int day = 0)
   {
@@ -29,26 +32,28 @@ struct Date {
   Date(ShowDate_return a)
   {
     y = a.r0;
-    str_m = a.r1;
+    m = a.r1;
     d = a.r2;
   }
 
   std::string String()
   {
-    if (m == 0) {
-      return std::to_string(y) + " " + str_m + " " +
-           std::to_string(d);
-    }
     return std::to_string(y) + " " + std::to_string(m) + " " +
            std::to_string(d);
   }
+
 };
+
+bool operator<(const Date& l, const Date& r) {
+  return std::make_tuple(l.y, l.m, l.d) < 
+         std::make_tuple(r.y, r.m, r.d);
+}
 
 class ToDoList
 {
 public:
   typedef std::pair<std::string, bool> task;
-  typedef std::map<std::string, std::list<task>> day_to_list;
+  typedef std::map<Date, std::list<task>> day_to_list;
 
   ToDoList(ImGuiIO& io)
       : CurrentDayFont(io.Fonts->AddFontFromFileTTF("Cousine-Bold.ttf", 28.0f)),
@@ -56,13 +61,11 @@ public:
         TaskFont(io.Fonts->AddFontFromFileTTF("Cousine-Regular.ttf", 18.0f))
   {
 
-// TODO change return of ShowDate to (int, int, int)
-// since map is ordered and string month is shit
     for (int i = 0; i < 50; ++i) {
       Date cd = ShowDate(current_day.y, current_day.m, current_day.d + i);
-      std::string day = std::to_string(cd.d) + " " + cd.str_m;
-      db[day] = {{"hello", 0}, {"poka", 1}};
-      buffers[day] = "";
+      db[cd] = {{"hello", 0}, {"poka", 1}};
+      std::string day_str = std::to_string(cd.d) + " " + std::to_string(cd.m);
+      buffers[day_str] = "";
     }
 
   }
@@ -83,7 +86,8 @@ public:
 
     for (auto& [day, tasks] : db) {
       ImGui::Separator();
-      RenderDay(day, tasks);
+      std::string day_str = std::to_string(day.d) + " " + std::to_string(day.m);
+      RenderDay(day_str, tasks);
     }
   }
 
@@ -130,6 +134,7 @@ public:
 
     std::string str = "##" + id;
 
+    // TODO change this
     char* buf = new char[65];
     std::copy(buffers[id].begin(), buffers[id].end(), buf);
     buf[buffers.size()] = '\n';
