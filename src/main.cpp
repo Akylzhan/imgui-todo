@@ -1,9 +1,11 @@
-// dear imgui: standalone example application for GLFW + OpenGL2, using legacy fixed pipeline
-// If you are new to dear imgui, see examples/README.txt and documentation at the top of imgui.cpp.
-// (GLFW is a cross-platform general purpose library for handling windows, inputs,
-// OpenGL/Vulkan/Metal graphics context creation, etc.)
+// dear imgui: standalone example application for GLFW + OpenGL2, using legacy
+// fixed pipeline If you are new to dear imgui, see examples/README.txt and
+// documentation at the top of imgui.cpp. (GLFW is a cross-platform general
+// purpose library for handling windows, inputs, OpenGL/Vulkan/Metal graphics
+// context creation, etc.)
 
-// **DO NOT USE THIS CODE IF YOUR CODE/ENGINE IS USING MODERN OPENGL (SHADERS, VBO, VAO, etc.)**
+// **DO NOT USE THIS CODE IF YOUR CODE/ENGINE IS USING MODERN OPENGL (SHADERS,
+// VBO, VAO, etc.)**
 // **Prefer using the code in the example_glfw_opengl2/ folder**
 // See imgui_impl_glfw.cpp for details.
 
@@ -40,7 +42,8 @@ int main(int, char**)
   ImGui::CreateContext();
   ImGuiIO& io = ImGui::GetIO();
   (void)io;
-  // io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+  // io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable
+  // Keyboard Controls
 
   ImGui::StyleColorsDark();
   // ImGui::StyleColorsClassic();
@@ -48,9 +51,10 @@ int main(int, char**)
   ImGui_ImplGlfw_InitForOpenGL(window, true);
   ImGui_ImplOpenGL2_Init();
 
-  ImVec4 clear_color = ImVec4(float(21) / 255, float(28) / 255, float(40) / 255, 1.00f);
+  ImVec4 clear_color =
+      ImVec4(float(21) / 255, float(28) / 255, float(40) / 255, 1.00f);
 
-  WeeksList tasks(io);
+  ToDoList tasks(io);
 
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
@@ -67,8 +71,9 @@ int main(int, char**)
 
     {
 
-      ImGuiWindowFlags flags =
-          ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground;
+      ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar |
+                               ImGuiWindowFlags_NoResize |
+                               ImGuiWindowFlags_NoBackground;
 
       ImGui::Begin("Hello, world!", NULL, flags);
 

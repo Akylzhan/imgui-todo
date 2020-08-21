@@ -1,0 +1,10 @@
+BasedOnStyle: LLVM
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+PointerAlignment: Left
+BinPackArguments: false
+BreakBeforeBraces: Linux
+AlwaysBreakTemplateDeclarations: Yes
+Standard: Latest
+ColumnLimit: 80

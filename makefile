@@ -7,13 +7,13 @@ OBJ_FILES = build/imgui.o build/imgui_demo.o build/imgui_draw.o
 OBJ_FILES += build/imgui_impl_glfw.o build/imgui_impl_opengl2.o build/imgui_widgets.o
 
 CXX_FLAGS = -Wall -Wextra -std=c++17 
-INCLUDE = -I libs/imgui -I libs/imgui/examples -I libs/imgui/examples/libs/glfw/include/GLFW
+INCLUDE = -I build/ -I libs/imgui -I libs/imgui/examples -I libs/imgui/examples/libs/glfw/include/GLFW
 CXX = g++
 
 .PHONY : clean format
 
-all: $(OBJ_FILES)
-	$(CXX) -o build/main $(SRC_FILES) $(OBJ_FILES) $(CXX_FLAGS) $(INCLUDE) $(LIBS)
+all: $(OBJ_FILES) build/date_utilities.a
+	$(CXX) -o build/main $(SRC_FILES) $(OBJ_FILES) build/date_utilities.a $(CXX_FLAGS) $(INCLUDE) $(LIBS)
 	cp Cousine-Bold.ttf build/Cousine-Bold.ttf
 	cp Cousine-Regular.ttf build/Cousine-Regular.ttf
 
@@ -28,8 +28,11 @@ build/imgui_impl_opengl2.o: libs/imgui/examples/imgui_impl_opengl2.cpp
 	$(CXX) -c -o $@ $< $(CXX_FLAGS) $(INCLUDE)
 
 
+build/date_utilities.a: src/date_utilities.go
+	go build -buildmode=c-archive -o date_utilities.h -o $@ $^
+
 format:
 	clang-format -i -style=file src/main.cpp src/weeks_list.h
 
-clear:
-	rm build/*
+clean:
+	rm -f build/*
