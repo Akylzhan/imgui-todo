@@ -12,13 +12,21 @@ CXX = g++
 
 .PHONY : clean format
 
-all: $(OBJ_FILES) 
+all: $(OBJ_FILES)
 	$(CXX) -o build/main $(SRC_FILES) $(OBJ_FILES) $(CXX_FLAGS) $(INCLUDE) $(LIBS)
 	cp Cousine-Bold.ttf build/Cousine-Bold.ttf
 	cp Cousine-Regular.ttf build/Cousine-Regular.ttf
 
 build/%.o: libs/imgui/%.cpp
+	mkdir -p build
 	$(CXX) -c -o $@ $< $(CXX_FLAGS) $(INCLUDE)
+
+build/imgui_impl_glfw.o: libs/imgui/examples/imgui_impl_glfw.cpp
+	$(CXX) -c -o $@ $< $(CXX_FLAGS) $(INCLUDE)
+
+build/imgui_impl_opengl2.o: libs/imgui/examples/imgui_impl_opengl2.cpp
+	$(CXX) -c -o $@ $< $(CXX_FLAGS) $(INCLUDE)
+
 
 format:
 	clang-format -i -style=file src/main.cpp src/weeks_list.h
