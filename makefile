@@ -7,7 +7,8 @@ OBJ_FILES = build/imgui.o build/imgui_demo.o build/imgui_draw.o
 OBJ_FILES += build/imgui_impl_glfw.o build/imgui_impl_opengl2.o build/imgui_widgets.o
 
 CXX_FLAGS = -Wall -Wextra -std=c++17 
-INCLUDE = -I build/ -I libs/imgui -I libs/imgui/examples -I libs/imgui/examples/libs/glfw/include/
+INCLUDE = -I build/ -I libs/imgui -I libs/imgui/examples
+INCLUDE += -I libs/imgui/examples/libs/glfw/include/ -I libs/imgui/examples/libs/gl3w/
 CXX = g++
 
 .PHONY : clean format
